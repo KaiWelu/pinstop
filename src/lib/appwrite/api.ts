@@ -3,6 +3,8 @@ import { ID } from "appwrite";
 import { INewUser } from "@/types";
 import { account, appwriteConfig, avatars, databases } from "./config";
 
+// creating a new user in the auth and database
+
 export async function createUserAccount(user: INewUser) {
   try {
     const newAccount = await account.create(
@@ -31,6 +33,8 @@ export async function createUserAccount(user: INewUser) {
     return error;
   }
 }
+
+// creating a user in the database
 
 export async function saveUserToDB(user: {
   accountId: string;
