@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { useToast } from "@/components/ui/use-toast";
 
@@ -24,9 +24,12 @@ import {
   useCreateUserAccount,
   useSignInAccount,
 } from "@/lib/react-query/queriesAndMutations";
+import { useUserContext } from "@/context/AuthContext";
 
 const SignupForm = () => {
   const { toast } = useToast();
+  const { checkAuthUser, isLoading: isUserLoading } = useUserContext;
+  const navigate = useNavigate();
 
   // this destructures the hook to create user accounts
   const { mutateAsync: createUserAccount, isLoading: isCreatingUser } =
@@ -68,6 +71,14 @@ const SignupForm = () => {
 
     if (!session) {
       return toast({ title: "Sign in failed. Please try again." });
+    }
+
+    const isLogggedIn = await checkAuthUser();
+    if (isLogggedIn) {
+      form.reset();
+      navigate("/");
+    } else {
+      return toast({ title: "Sign up failed. Please try again" });
     }
   }
   return (
