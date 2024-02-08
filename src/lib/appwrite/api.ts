@@ -55,3 +55,14 @@ export async function saveUserToDB(user: {
     console.log(error);
   }
 }
+
+// this is for signing in the user via mail and password, it uses appwrite functions for that
+
+export async function signInAccount(user: { email: string; password: string }) {
+  try {
+    const session = await account.createEmailSession(user.email, user.password);
+    return session;
+  } catch (error) {
+    console.log(error);
+  }
+}
