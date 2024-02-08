@@ -59,8 +59,8 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   // this useEffect checks if a user is logged in everytime the page loads
   useEffect(() => {
     if (
-      localStorage.getItem("cookieFallback") === "" ||
-      localStorage.getItem("cookieFallback") === null
+      localStorage.getItem("cookieFallback") === ""
+      //   localStorage.getItem("cookieFallback") === null
     ) {
       navigate("sign-in");
     }
