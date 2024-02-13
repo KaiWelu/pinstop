@@ -40,7 +40,7 @@ const SigninForm = () => {
   });
 
   // this is the submit handler to save users to the db
-  async function onSubmit(values: z.infer<typeof SiginValidation>) {
+  async function onSubmit(values: z.infer<typeof SigninValidation>) {
     const session = await signInAccount({
       email: values.email,
       password: values.password,
