@@ -15,8 +15,13 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "../ui/textarea";
 import FileUploader from "../shared/FileUploader";
 import { PostValidation } from "@/lib/validation";
+import { Models } from "appwrite";
 
-const PostForm = ({ post }) => {
+type PostFormProps = {
+  post?: Models.Document;
+};
+
+const PostForm = ({ post }: PostFormProps) => {
   //shadcn functions for the form
   const form = useForm<z.infer<typeof PostValidation>>({
     resolver: zodResolver(PostValidation),
