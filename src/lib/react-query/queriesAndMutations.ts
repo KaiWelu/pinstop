@@ -1,4 +1,4 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   SignOutAccount,
   createPost,
@@ -6,6 +6,7 @@ import {
   signInAccount,
 } from "../appwrite/api";
 import { INewPost, INewUser } from "@/types";
+import { QUERY_KEYS } from "./queryKeys";
 
 export const useCreateUserAccount = () => {
   return useMutation({
@@ -27,7 +28,15 @@ export const useSignOutAccount = () => {
 };
 
 export const useCreatePost = () => {
+  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (post: INewPost) => createPost(post),
+
+    // this invalidation forces the app to always get fresh data and to not use the cache
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.GET_RECENT_POSTS], //this comes from the enumerations in querykeys
+      });
+    },
   });
 };
