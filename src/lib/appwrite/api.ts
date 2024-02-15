@@ -102,6 +102,7 @@ export async function createPost(post: INewPost) {
     const uploadedFile = await uploadFile(post.file[0]);
 
     // check if there is actually a file
+
     if (!uploadedFile) throw Error;
 
     // get the file url
@@ -109,14 +110,14 @@ export async function createPost(post: INewPost) {
 
     // checks if everything went right and if not deletes the post from the database
     if (!fileUrl) {
-      deleteFile(uploadedFile.$id);
+      await deleteFile(uploadedFile.$id);
       throw Error;
     }
-
     // convert tags in an array
     const tags = post.tags?.replace(/ /g, "").split(",") || []; // regex to find whitespaces and replace them with commas
 
     // save to database
+    console.log("before creating the url");
     const newPost = await databases.createDocument(
       appwriteConfig.databaseId,
       appwriteConfig.postCollectionId,
@@ -130,12 +131,12 @@ export async function createPost(post: INewPost) {
         tags: tags,
       }
     );
-
+    console.log("After creating the url");
     if (!newPost) {
+      console.log("No new Post!");
       await deleteFile(uploadedFile.$id);
       throw Error;
     }
-
     return newPost;
   } catch (error) {
     console.log(error);
@@ -156,7 +157,7 @@ export async function uploadFile(file: File) {
   }
 }
 
-export async function getFilePreview(fileId: string) {
+export function getFilePreview(fileId: string) {
   try {
     const fileUrl = storage.getFilePreview(
       appwriteConfig.storageId,
@@ -166,10 +167,20 @@ export async function getFilePreview(fileId: string) {
       "top",
       100 // quality
     );
-    return fileUrl;
+    console.log(fileUrl);
+    console.log(fileUrl.toString());
+    return fileUrl.toString();
   } catch (error) {
     console.log(error);
   }
+
+  // try {
+  //   const fileUrl = storage.getFileView(appwriteConfig.storageId, fileId);
+  //   console.log(fileUrl);
+  //   return fileUrl;
+  // } catch (error) {
+  //   console.log(error);
+  // }
 }
 
 export async function deleteFile(fileId: string) {
