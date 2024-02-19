@@ -1,8 +1,9 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   SignOutAccount,
   createPost,
   createUserAccount,
+  getRecentPosts,
   signInAccount,
 } from "../appwrite/api";
 import { INewPost, INewUser } from "@/types";
@@ -38,5 +39,12 @@ export const useCreatePost = () => {
         queryKey: [QUERY_KEYS.GET_RECENT_POSTS], //this comes from the enumerations in querykeys
       });
     },
+  });
+};
+
+export const useGetRecentPosts = () => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.GET_RECENT_POSTS],
+    queryFn: getRecentPosts,
   });
 };
