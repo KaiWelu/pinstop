@@ -167,8 +167,6 @@ export function getFilePreview(fileId: string) {
       "top",
       100 // quality
     );
-    console.log(fileUrl);
-    console.log(fileUrl.toString());
     return fileUrl.toString();
   } catch (error) {
     console.log(error);
@@ -194,4 +192,23 @@ export async function getRecentPosts() {
   if (!posts) throw Error;
 
   return posts;
+}
+
+export async function likePost(postId: string, likesArray: string[]) {
+  try {
+    const updatedPost = await databases.updateDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.postCollectionId,
+      postId,
+      {
+        likes: likesArray,
+      }
+    );
+
+    if (!updatedPost) throw Error;
+
+    return updatedPost;
+  } catch (error) {
+    console.log(error);
+  }
 }

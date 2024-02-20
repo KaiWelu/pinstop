@@ -2,6 +2,7 @@ import { Models } from "appwrite";
 import { Link } from "react-router-dom";
 import { formatDate } from "@/lib/utils";
 import { useUserContext } from "@/context/AuthContext";
+import PostStats from "./PostStats";
 
 type PostCardProps = {
   post: Models.Document;
@@ -11,7 +12,7 @@ const PostCard = ({ post }: PostCardProps) => {
   const dateFormatted = formatDate(post.$createdAt);
 
   const { user } = useUserContext();
-  console.log(post);
+
   // return in case something goes wrong and there is no data
   if (!post.creator) return;
 
@@ -73,6 +74,7 @@ const PostCard = ({ post }: PostCardProps) => {
           alt="post image"
         />
       </Link>
+      <PostStats post={post} userId={user.id} />
     </div>
   );
 };
