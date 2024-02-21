@@ -6,7 +6,7 @@ import {
 } from "@/lib/react-query/queriesAndMutations";
 import { checkIsLiked } from "@/lib/utils";
 import { Models } from "appwrite";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 
 type PostStatsProps = {
   post: Models.Document;
@@ -25,7 +25,23 @@ const PostStats = ({ post, userId }: PostStatsProps) => {
   const { mutate: deleteSavedPost } = useDeleteSavePost();
   const { data: currentUser } = useUserContext();
 
-  const handleLikePost = () => {};
+  const handleLikePost = (e: React.MouseEvent) => {
+    e.stopPropagation();
+
+    let newLikes = [...likes];
+
+    // if already liked remove it otherwise append it
+    const hasLiked = newLikes.includes(userId);
+    if (hasLiked) {
+      newLikes = newLikes.filter((id) => id !== userId);
+    } else {
+      newLikes.push(userId);
+    }
+    //update the new likes list
+    setLikes(newLikes);
+
+    likePost({ postId: post.$id, likesArray: newLikes });
+  };
   const handleSavePost = () => {};
 
   return (
