@@ -6,7 +6,6 @@ import { useParams } from "react-router-dom";
 const EditPost = () => {
   const { id } = useParams();
   const { data: post, isPending } = useGetPostById(id || ""); // or empty string because id has to be a string
-  console.log(id);
 
   // this returns a loader component if the data is still fetching
   if (isPending) return <Loader />;
@@ -23,7 +22,7 @@ const EditPost = () => {
           />
           <h2 className="h3-bold md:h2-bold text-left w-full">Edit Post</h2>
         </div>
-        <PostForm action="update" post={post} />
+        <PostForm action="Update" post={post} />
       </div>
     </div>
   );

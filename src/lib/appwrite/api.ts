@@ -1,6 +1,6 @@
 import { ID, Query } from "appwrite";
 
-import { INewPost, INewUser } from "@/types";
+import { INewPost, INewUser, IUpdatePost } from "@/types";
 import { account, appwriteConfig, avatars, databases, storage } from "./config";
 
 // creating a new user in the auth and database
@@ -117,7 +117,6 @@ export async function createPost(post: INewPost) {
     const tags = post.tags?.replace(/ /g, "").split(",") || []; // regex to find whitespaces and replace them with commas
 
     // save to database
-    console.log("before creating the url");
     const newPost = await databases.createDocument(
       appwriteConfig.databaseId,
       appwriteConfig.postCollectionId,
@@ -131,7 +130,6 @@ export async function createPost(post: INewPost) {
         tags: tags,
       }
     );
-    console.log("After creating the url");
     if (!newPost) {
       console.log("No new Post!");
       await deleteFile(uploadedFile.$id);
@@ -167,7 +165,7 @@ export function getFilePreview(fileId: string) {
       "top",
       100 // quality
     );
-    return fileUrl.toString();
+    return fileUrl;
   } catch (error) {
     console.log(error);
   }
@@ -258,6 +256,62 @@ export async function getPostById(postId: string) {
     );
 
     return post;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function updatePost(post: IUpdatePost) {
+  // this checks if the picture gets updated or just the content by looking up how many pictures are in the array
+  const hasFileToUpdate = post.file.length > 0;
+
+  try {
+    let image = {
+      imageUrl: post.imageUrl,
+      imageId: post.imageId,
+    };
+
+    if (hasFileToUpdate) {
+      // upload image to storage
+      const uploadedFile = await uploadFile(post.file[0]);
+
+      // check if there is actually a file
+      if (!uploadedFile) throw Error;
+
+      // get the file url
+      const fileUrl = getFilePreview(uploadedFile.$id);
+
+      // checks if everything went right and if not deletes the post from the database
+      if (!fileUrl) {
+        await deleteFile(uploadedFile.$id);
+        throw Error;
+      }
+
+      image = { ...image, imageUrl: fileUrl, imageId: uploadedFile.$id };
+    }
+
+    // convert tags in an array
+    const tags = post.tags?.replace(/ /g, "").split(",") || []; // regex to find whitespaces and replace them with commas
+
+    // save updates to database
+    const updatedPost = await databases.updateDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.postCollectionId,
+      post.postId,
+      {
+        caption: post.caption,
+        imageUrl: image.imageUrl,
+        imageId: image.imageId,
+        location: post.location,
+        tags: tags,
+      }
+    );
+    console.log("After creating the url");
+    if (!updatedPost) {
+      await deleteFile(post.imageId);
+      throw Error;
+    }
+    return updatedPost;
   } catch (error) {
     console.log(error);
   }
