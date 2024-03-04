@@ -1,4 +1,5 @@
 import Loader from "@/components/shared/Loader";
+import PostStats from "@/components/shared/PostStats";
 import { Button } from "@/components/ui/button";
 import { useUserContext } from "@/context/AuthContext";
 import { useGetPostById } from "@/lib/react-query/queriesAndMutations";
@@ -10,7 +11,7 @@ const PostDetails = () => {
   const { data: post, isPending } = useGetPostById(id || "");
   const { user } = useUserContext();
 
-  const dateFormatted = formatDate(post?.$createdAt);
+  const dateFormatted = formatDate(post?.$createdAt || "");
 
   const handleDeletePost = () => {};
 
@@ -79,6 +80,21 @@ const PostDetails = () => {
                   />
                 </Button>
               </div>
+            </div>
+            {/* this creates a dividing line */}
+            <hr className="border w-full border-dark-4/80" />
+            <div className="flex flex-col flex-1 w-full small-medium ls:base-regular">
+              <p>{post?.caption}</p>
+              <ul className="flex-1 gap-1 mt-2">
+                {post?.tags.map((tag: string) => (
+                  <li key={tag} className="text-light-3">
+                    #{tag}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="w-full">
+              <PostStats post={post} userId={user.id} />
             </div>
           </div>
         </div>
