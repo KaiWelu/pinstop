@@ -38,6 +38,11 @@ const SignupForm = () => {
   const { mutateAsync: signInAccount, isPending: isSigningIn } =
     useSignInAccount();
 
+  // === this is for debugging ===
+  if (!isSigningIn) {
+    console.log("This works?");
+  }
+
   // defines the validation for the form
   const form = useForm<z.infer<typeof SignupValidation>>({
     resolver: zodResolver(SignupValidation),
@@ -52,8 +57,6 @@ const SignupForm = () => {
   // this is the submit handler to save users to the db
   async function onSubmit(values: z.infer<typeof SignupValidation>) {
     const newUser = await createUserAccount(values);
-
-    console.log(newUser);
 
     // this is just a test for toasts
     //toast({ title: "Hey whats up? Trying to log in?" });
@@ -74,7 +77,7 @@ const SignupForm = () => {
     }
 
     const isLogggedIn = await checkAuthUser();
-    if (isLogggedIn) {
+    if (isLogggedIn && !isUserLoading) {
       form.reset();
       navigate("/");
     } else {
