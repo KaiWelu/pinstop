@@ -17,6 +17,7 @@ const SearchResults = ({
   }
 
   if (searchedPosts && searchedPosts.documents.length > 0) {
+    console.log(searchedPosts.documents);
     return <GridPostList posts={searchedPosts.documents} />;
   }
 

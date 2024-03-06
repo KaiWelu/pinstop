@@ -1,6 +1,6 @@
 import SearchResults from "@/components/shared/SearchResults";
 import { Input } from "@/components/ui/input";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import GridPostList from "./GridPostList";
 import {
   useGetPosts,
@@ -8,8 +8,11 @@ import {
 } from "@/lib/react-query/queriesAndMutations";
 import useDebounce from "@/hooks/useDebounce";
 import Loader from "@/components/shared/Loader";
+//this package checks if elements enter or leave the viewport
+import { useInView } from "react-intersection-observer";
 
 const Explore = () => {
+  const { ref, inView } = useInView();
   const { data: posts, fetchNextPage, hasNextPage } = useGetPosts();
 
   // this contains everything for the search, the debounce is only fetching after 500ms to save performance
@@ -18,8 +21,11 @@ const Explore = () => {
   const { data: searchedPosts, isFetching: isSearchFetching } =
     useSearchPosts(debouncedValue);
 
-  // this is for debugging
-  console.log(posts);
+  //this effect is responsible for the infinite scrolling feature
+  useEffect(() => {
+    if (inView && !searchValue) fetchNextPage();
+  }, [inView, searchValue]);
+
   if (!posts) {
     return (
       <div className="flex-center w-full h-full">
@@ -80,6 +86,11 @@ const Explore = () => {
           ))
         )}
       </div>
+      {hasNextPage && !searchValue && (
+        <div ref={ref} className="mt-10">
+          <Loader />
+        </div>
+      )}
     </div>
   );
 };

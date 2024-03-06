@@ -1,7 +1,9 @@
-import React from "react";
-
 const Saved = () => {
-  return <div>Saved</div>;
+  return (
+    <div className="flex items-center justify-center w-full">
+      Nothing to see here yet...
+    </div>
+  );
 };
 
 export default Saved;
