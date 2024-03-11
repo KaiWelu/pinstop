@@ -24,7 +24,7 @@ const LeftSidebar = () => {
       <div className="flex flex-col gap-11">
         <Link to="/" className="flex gap-3 items-center">
           <img
-            src="/public/assets/images/logo.svg"
+            src="/assets/images/logo.svg"
             alt="logo"
             width={170}
             height={63}
@@ -32,7 +32,7 @@ const LeftSidebar = () => {
         </Link>
         <Link to={"/profile/${user.id}"} className="flex gap-3 items-center">
           <img
-            src={user.imageUrl || "/public/assets/images/profile.png"}
+            src={user.imageUrl || "/assets/images/profile.png"}
             alt="profile"
             className="h-14 w-14 rounded-full"
           />
@@ -76,7 +76,7 @@ const LeftSidebar = () => {
         className="shad-button_ghost"
         onClick={() => signOut()}
       >
-        <img src="/public/assets/icons/logout.svg" alt="logout" />
+        <img src="/assets/icons/logout.svg" alt="logout" />
         <p className="small-medium lg:base-medium">Logout</p>
       </Button>
     </nav>

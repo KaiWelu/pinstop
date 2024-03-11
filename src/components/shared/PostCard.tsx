@@ -22,9 +22,7 @@ const PostCard = ({ post }: PostCardProps) => {
         <div className="flex items-center gap-3">
           <Link to={`/profile/${post?.creator.$id}`}>
             <img
-              src={
-                post?.creator.imageUrl || "/public/assets/images/profile.png"
-              }
+              src={post?.creator.imageUrl || "/assets/images/profile.png"}
               alt="creator"
               className="rounded-full w-12 lg:h-12"
             />
@@ -49,12 +47,7 @@ const PostCard = ({ post }: PostCardProps) => {
           to={`/update-post/${post.$id}`}
           className={`${user.id !== post.creator.$id && "hidden"}`}
         >
-          <img
-            src="/public/assets/icons/edit.svg"
-            alt="edit"
-            width={20}
-            height={20}
-          />
+          <img src="/assets/icons/edit.svg" alt="edit" width={20} height={20} />
         </Link>
       </div>
       <Link to={`/posts/${post.$id}`}>

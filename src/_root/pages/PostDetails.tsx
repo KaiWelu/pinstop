@@ -30,10 +30,7 @@ const PostDetails = () => {
                 className="flex items-center gap-3"
               >
                 <img
-                  src={
-                    post?.creator.imageUrl ||
-                    "/public/assets/images/profile.png"
-                  }
+                  src={post?.creator.imageUrl || "/assets/images/profile.png"}
                   alt="creator"
                   className="rounded-full w-8 h-8 lg:w-12 lg:h-12"
                 />
@@ -59,7 +56,7 @@ const PostDetails = () => {
                   className={`${user.id !== post?.creator.$id && "hidden"}`}
                 >
                   <img
-                    src="/public/assets/icons/edit.svg"
+                    src="/assets/icons/edit.svg"
                     width={24}
                     height={24}
                     alt="edit"
@@ -73,7 +70,7 @@ const PostDetails = () => {
                   }`}
                 >
                   <img
-                    src="/public/assets/icons/delete.svg"
+                    src="/assets/icons/delete.svg"
                     width={24}
                     height={24}
                     alt="delete"
