@@ -37,8 +37,10 @@ const Saved = () => {
           Saved Posts
         </h2>
       </div>
-      <div className="flex flex-wrap gap-9 w-full max-w-5xl">
-        {savedPosts && <GridPostList key={`page-1`} posts={savedPosts} />}
+      <div className="flex flex-wrap gap-9 w-full max-w-5xl mt-7">
+        {savedPosts && (
+          <GridPostList key={`page-1`} posts={savedPosts} showStats={false} />
+        )}
       </div>
       {/* <ul className="grid-container">
         {savedPosts.map((post) => (
