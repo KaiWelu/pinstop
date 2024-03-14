@@ -7,6 +7,7 @@ import GridPostList from "./GridPostList";
 import { Models } from "appwrite";
 
 const Saved = () => {
+  // look at some examples on how to synch the hooks
   const { data: currentUser } = useGetCurrentUser();
 
   const savedIds: string[] = [];

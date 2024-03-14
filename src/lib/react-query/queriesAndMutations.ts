@@ -218,5 +218,6 @@ export const useGetSavedPosts = (ids: string[]) => {
   return useQuery({
     queryKey: [QUERY_KEYS.GET_SAVED_POSTS],
     queryFn: () => getSavedPostsById(ids),
+    enabled: ids.length > 0, // this lets the querry wait for the arguments
   });
 };
