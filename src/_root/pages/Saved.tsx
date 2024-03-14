@@ -3,8 +3,7 @@ import {
   useGetCurrentUser,
   useGetSavedPosts,
 } from "@/lib/react-query/queriesAndMutations";
-import { Link } from "react-router-dom";
-import PostStats from "@/components/shared/PostStats";
+import GridPostList from "./GridPostList";
 
 const Saved = () => {
   const { data: currentUser } = useGetCurrentUser();
@@ -38,7 +37,10 @@ const Saved = () => {
           Saved Posts
         </h2>
       </div>
-      <ul className="grid-container">
+      <div className="flex flex-wrap gap-9 w-full max-w-5xl">
+        {savedPosts && <GridPostList key={`page-1`} posts={savedPosts} />}
+      </div>
+      {/* <ul className="grid-container">
         {savedPosts.map((post) => (
           <li key={post.$id} className="relative min-w-80 h-80">
             <Link to={`/posts/${post.$id}`} className="grid-post_link">
@@ -51,30 +53,7 @@ const Saved = () => {
             <div className="grid-post_user">PLACEHOLDER</div>
           </li>
         ))}
-      </ul>
-
-      {/* <li key={post.$id} className="relative min-w-80 h-80">
-          <Link to={`/posts/${post.$id}`} className="grid-post_link">
-            <img
-              src={post.imageUrl}
-              alt="post"
-              className="h-full w-full object-cover"
-            />
-          </Link>
-          <div className="grid-post_user">
-            {showUser && (
-              <div className="flex items-center justify-start gap-2 flex-1">
-                <img
-                  src={post.creator.imageUrl}
-                  alt="creator"
-                  className="h-8 w-8 rounded-full"
-                />
-                <p className="line-clamp-1">{post.creator.name}</p>
-              </div>
-            )}
-            {showStats && <PostStats post={post} userId={user.id} />}
-          </div>
-        </li> */}
+      </ul> */}
     </div>
   );
 };

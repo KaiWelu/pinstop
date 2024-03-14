@@ -374,21 +374,46 @@ export async function searchPosts(searchTerm: string) {
 
 export async function getSavedPosts() {
   try {
+    const savedPostIds: string[] = [];
+    const savedPosts: any[] = [];
     const currentUser = await getCurrentUser();
 
-    if (!currentUser) throw Error;
-
-    // console.log(currentUser);
-
-    const savedPosts: Models.Document[] = [];
-
+    // this will get a list of the ids of the post the user saved
     if (currentUser) {
-      currentUser.save.forEach((element: Document) => {
-        savedPosts.push(element.post);
+      currentUser.save.forEach((element: Models.Document) => {
+        savedPostIds.push(element.post.$id);
       });
-      return savedPosts;
+    } else throw Error;
+
+    // this will get the posts by id and saves them in an array
+    if (savedPostIds.length > 0) {
+      console.log(savedPostIds);
+      // this has to be an async function
+      savedPostIds.forEach(async (element: string) => {
+        const post = await getPostById(element);
+        savedPosts.push(post);
+      });
+      if (savedPosts) return savedPosts;
     }
   } catch (error) {
     console.log(error);
   }
+  // try {
+  //   const currentUser = await getCurrentUser();
+
+  //   if (!currentUser) throw Error;
+
+  //   // console.log(currentUser);
+
+  //   const savedPosts: Models.Document[] = [];
+
+  //   if (currentUser) {
+  //     currentUser.save.forEach((element: Document) => {
+  //       savedPosts.push(element.post);
+  //     });
+  //     return savedPosts;
+  //   }
+  // } catch (error) {
+  //   console.log(error);
+  // }
 }
