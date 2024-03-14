@@ -4,26 +4,43 @@ import {
   useGetSavedPosts,
 } from "@/lib/react-query/queriesAndMutations";
 import GridPostList from "./GridPostList";
+import { Models } from "appwrite";
 
 const Saved = () => {
   const { data: currentUser } = useGetCurrentUser();
-  console.log(currentUser);
+
+  const savedIds: string[] = [];
+
+  if (currentUser) {
+    console.log("Got the User!");
+    console.log(currentUser);
+    currentUser.save.forEach((item: Models.Document) => {
+      savedIds.push(item.post.$id);
+    });
+    console.log(savedIds);
+  }
+
+  if (savedIds) {
+    console.log(savedIds);
+  }
 
   const {
     data: savedPosts,
     isPending: isSavedPostLoading,
     // isError: isErrorPosts,
-  } = useGetSavedPosts();
+  } = useGetSavedPosts(savedIds);
 
-  if (isSavedPostLoading || !savedPosts) {
+  if (isSavedPostLoading) {
     return (
       <div className="flex-center w-full h-full">
         <Loader />
       </div>
     );
   } else {
-    console.log(savedPosts);
+    console.log("Loading done");
   }
+
+  console.log(savedPosts);
 
   return (
     <div className="explore-container">
@@ -39,7 +56,11 @@ const Saved = () => {
       </div>
       <div className="flex flex-wrap gap-9 w-full max-w-5xl mt-7">
         {savedPosts && (
-          <GridPostList key={`page-1`} posts={savedPosts} showStats={false} />
+          <GridPostList
+            key={`page-1`}
+            posts={savedPosts.documents}
+            showStats={false}
+          />
         )}
       </div>
       {/* <ul className="grid-container">

@@ -373,11 +373,11 @@ export async function searchPosts(searchTerm: string) {
 }
 
 export async function getSavedPosts() {
+  // === this is not working that good ===
   try {
     const savedPostIds: string[] = [];
     const savedPosts: any[] = [];
     const currentUser = await getCurrentUser();
-
     // this will get a list of the ids of the post the user saved
     if (currentUser) {
       currentUser.save.forEach((element: Models.Document) => {
@@ -391,29 +391,30 @@ export async function getSavedPosts() {
       // this has to be an async function
       savedPostIds.forEach(async (element: string) => {
         const post = await getPostById(element);
-        savedPosts.push(post);
+        if (post) {
+          savedPosts.push(post);
+        }
+        console.log(post);
       });
-      if (savedPosts) return savedPosts;
+      console.log(savedPosts);
+      return savedPosts;
     }
+    console.log("something went wrong");
   } catch (error) {
     console.log(error);
   }
-  // try {
-  //   const currentUser = await getCurrentUser();
+}
 
-  //   if (!currentUser) throw Error;
+export async function getSavedPostsById(ids: string[]) {
+  console.log("Query started");
+  const posts = await databases.listDocuments(
+    appwriteConfig.databaseId,
+    appwriteConfig.postCollectionId,
+    [Query.equal("$id", ids)]
+  );
+  console.log(posts);
+  if (!posts) throw Error;
+  console.log("Query done");
 
-  //   // console.log(currentUser);
-
-  //   const savedPosts: Models.Document[] = [];
-
-  //   if (currentUser) {
-  //     currentUser.save.forEach((element: Document) => {
-  //       savedPosts.push(element.post);
-  //     });
-  //     return savedPosts;
-  //   }
-  // } catch (error) {
-  //   console.log(error);
-  // }
+  return posts;
 }

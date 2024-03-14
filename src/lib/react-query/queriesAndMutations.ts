@@ -15,6 +15,7 @@ import {
   getPostById,
   getRecentPosts,
   getSavedPosts,
+  getSavedPostsById,
   likePost,
   savePost,
   searchPosts,
@@ -213,9 +214,9 @@ export const useSearchPosts = (searchTerm: string) => {
   });
 };
 
-export const useGetSavedPosts = () => {
+export const useGetSavedPosts = (ids: string[]) => {
   return useQuery({
     queryKey: [QUERY_KEYS.GET_SAVED_POSTS],
-    queryFn: () => getSavedPosts(),
+    queryFn: () => getSavedPostsById(ids),
   });
 };
