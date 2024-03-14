@@ -371,3 +371,15 @@ export async function searchPosts(searchTerm: string) {
     console.log(error);
   }
 }
+
+export async function getSavedPosts() {
+  try {
+    const currentUser = await getCurrentUser();
+
+    if (!currentUser) throw Error;
+
+    return currentUser.data.save;
+  } catch (error) {
+    console.log(error);
+  }
+}

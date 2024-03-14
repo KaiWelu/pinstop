@@ -1,8 +1,23 @@
+import Loader from "@/components/shared/Loader";
+import PostCard from "@/components/shared/PostCard";
 import { useGetCurrentUser } from "@/lib/react-query/queriesAndMutations";
+import { Models } from "appwrite";
 
 const Saved = () => {
   const user = useGetCurrentUser();
-  console.log(user);
+
+  if (user.data) {
+    console.log(user.data);
+    console.log(user.data.save);
+  }
+
+  if (!user.data) {
+    return (
+      <div className="flex-center w-full h-full">
+        <Loader />
+      </div>
+    );
+  }
 
   return (
     <div className="explore-container">
@@ -17,6 +32,11 @@ const Saved = () => {
         </h2>
       </div>
       <div className="">Das ist ein Test</div>
+      {/* <ul className="flex flex-col flex-1 gap-9 w-full">
+        {user?.data?.save?.documents.map((post: Models.Document) => (
+          <PostCard post={post} key={post.caption} />
+        ))}
+      </ul> */}
     </div>
   );
 };
