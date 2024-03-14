@@ -378,7 +378,7 @@ export async function getSavedPosts() {
 
     if (!currentUser) throw Error;
 
-    return currentUser.data.save;
+    return currentUser.save;
   } catch (error) {
     console.log(error);
   }

@@ -1,22 +1,23 @@
 import Loader from "@/components/shared/Loader";
 import PostCard from "@/components/shared/PostCard";
-import { useGetCurrentUser } from "@/lib/react-query/queriesAndMutations";
+import { useGetSavedPosts } from "@/lib/react-query/queriesAndMutations";
 import { Models } from "appwrite";
 
 const Saved = () => {
-  const user = useGetCurrentUser();
+  const {
+    data: savedPosts,
+    isPending: isSavedPostLoading,
+    // isError: isErrorPosts,
+  } = useGetSavedPosts();
 
-  if (user.data) {
-    console.log(user.data);
-    console.log(user.data.save);
-  }
-
-  if (!user.data) {
+  if (isSavedPostLoading || !savedPosts) {
     return (
       <div className="flex-center w-full h-full">
         <Loader />
       </div>
     );
+  } else {
+    console.log(savedPosts);
   }
 
   return (
@@ -32,11 +33,11 @@ const Saved = () => {
         </h2>
       </div>
       <div className="">Das ist ein Test</div>
-      {/* <ul className="flex flex-col flex-1 gap-9 w-full">
-        {user?.data?.save?.documents.map((post: Models.Document) => (
+      <ul className="flex flex-col flex-1 gap-9 w-full">
+        {savedPosts.post.map((post: Models.Document) => (
           <PostCard post={post} key={post.caption} />
         ))}
-      </ul> */}
+      </ul>
     </div>
   );
 };
