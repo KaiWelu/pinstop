@@ -1,4 +1,4 @@
-import { ID, Query } from "appwrite";
+import { ID, Models, Query } from "appwrite";
 
 import { INewPost, INewUser, IUpdatePost } from "@/types";
 import { account, appwriteConfig, avatars, databases, storage } from "./config";
@@ -378,7 +378,16 @@ export async function getSavedPosts() {
 
     if (!currentUser) throw Error;
 
-    return currentUser.save;
+    // console.log(currentUser);
+
+    const savedPosts: Models.Document[] = [];
+
+    if (currentUser) {
+      currentUser.save.forEach((element: Document) => {
+        savedPosts.push(element.post);
+      });
+      return savedPosts;
+    }
   } catch (error) {
     console.log(error);
   }
