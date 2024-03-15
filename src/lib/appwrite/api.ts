@@ -371,3 +371,17 @@ export async function searchPosts(searchTerm: string) {
     console.log(error);
   }
 }
+
+export async function getSavedPostsById(ids: string[]) {
+  console.log("Query started");
+  const posts = await databases.listDocuments(
+    appwriteConfig.databaseId,
+    appwriteConfig.postCollectionId,
+    [Query.equal("$id", ids)]
+  );
+  console.log(posts);
+  if (!posts) throw Error;
+  console.log("Query done");
+
+  return posts;
+}

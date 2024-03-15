@@ -14,6 +14,7 @@ import {
   getInfinitePosts,
   getPostById,
   getRecentPosts,
+  getSavedPostsById,
   likePost,
   savePost,
   searchPosts,
@@ -209,5 +210,13 @@ export const useSearchPosts = (searchTerm: string) => {
     queryKey: [QUERY_KEYS.SEARCH_POSTS, searchTerm],
     queryFn: () => searchPosts(searchTerm),
     enabled: !!searchTerm,
+  });
+};
+
+export const useGetSavedPostsById = (ids: string[]) => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.GET_SAVED_POSTS_BY_ID],
+    queryFn: () => getSavedPostsById(ids),
+    enabled: ids.length > 0, // this lets the querry wait for the arguments
   });
 };

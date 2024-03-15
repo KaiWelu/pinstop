@@ -14,6 +14,7 @@ import { useInView } from "react-intersection-observer";
 const Explore = () => {
   const { ref, inView } = useInView();
   const { data: posts, fetchNextPage, hasNextPage } = useGetPosts();
+  console.log(posts);
 
   // this contains everything for the search, the debounce is only fetching after 500ms to save performance
   const [searchValue, setSearchValue] = useState("");
