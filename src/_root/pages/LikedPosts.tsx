@@ -1,7 +1,6 @@
 import Loader from "@/components/shared/Loader";
 import { useGetPostById } from "@/lib/react-query/queriesAndMutations";
 import { Models } from "appwrite";
-import { Http2ServerRequest } from "http2";
 import { Link, useParams } from "react-router-dom";
 
 const LikedPosts = () => {
@@ -35,7 +34,7 @@ const LikedPosts = () => {
                   alt="liker"
                   className="rounded-full w-12 lg:h-12"
                 />
-                <Link>
+                <Link to={`/profile/posts/${post?.$id}`}>
                   <p className="base-medium lg:body-bold text-light-1">
                     {item.name}
                   </p>
