@@ -1,4 +1,4 @@
-import { ID, Models, Query } from "appwrite";
+import { ID, Query } from "appwrite";
 
 import { INewPost, INewUser, IUpdatePost } from "@/types";
 import { account, appwriteConfig, avatars, databases, storage } from "./config";
@@ -367,39 +367,6 @@ export async function searchPosts(searchTerm: string) {
     if (!posts) throw Error;
 
     return posts;
-  } catch (error) {
-    console.log(error);
-  }
-}
-
-export async function getSavedPosts() {
-  // === this is not working that good ===
-  try {
-    const savedPostIds: string[] = [];
-    const savedPosts: any[] = [];
-    const currentUser = await getCurrentUser();
-    // this will get a list of the ids of the post the user saved
-    if (currentUser) {
-      currentUser.save.forEach((element: Models.Document) => {
-        savedPostIds.push(element.post.$id);
-      });
-    } else throw Error;
-
-    // this will get the posts by id and saves them in an array
-    if (savedPostIds.length > 0) {
-      console.log(savedPostIds);
-      // this has to be an async function
-      savedPostIds.forEach(async (element: string) => {
-        const post = await getPostById(element);
-        if (post) {
-          savedPosts.push(post);
-        }
-        console.log(post);
-      });
-      console.log(savedPosts);
-      return savedPosts;
-    }
-    console.log("something went wrong");
   } catch (error) {
     console.log(error);
   }
