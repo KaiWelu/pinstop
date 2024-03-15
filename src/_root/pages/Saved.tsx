@@ -18,6 +18,8 @@ const Saved = () => {
     });
   }
 
+  if (currentUser) console.log(currentUser);
+
   //query the database with an array of ids to get the saved posts
   const {
     data: savedPosts,
@@ -31,11 +33,7 @@ const Saved = () => {
         <Loader />
       </div>
     );
-  } else {
-    console.log("Loading done");
   }
-
-  console.log(savedPosts);
 
   return (
     <div className="explore-container">

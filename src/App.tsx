@@ -11,6 +11,7 @@ import {
   EditPost,
   Explore,
   Home,
+  LikedPosts,
   PostDetails,
   Profile,
   Saved,
@@ -39,6 +40,7 @@ export const App = () => {
           <Route path="/posts/:id" element={<PostDetails />} />
           <Route path="/profile/:id/*" element={<Profile />} />
           <Route path="/update-profile/:id" element={<UpdateProfile />} />
+          <Route path="/posts/:id/likes" element={<LikedPosts />} />
         </Route>
       </Routes>
       <Toaster />

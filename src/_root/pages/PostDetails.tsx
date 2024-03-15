@@ -11,6 +11,8 @@ const PostDetails = () => {
   const { data: post, isPending } = useGetPostById(id || "");
   const { user } = useUserContext();
 
+  if (post) console.log(post);
+
   const dateFormatted = formatDate(post?.$createdAt || "");
 
   const handleDeletePost = () => {};
