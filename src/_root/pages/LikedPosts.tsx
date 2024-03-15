@@ -15,17 +15,18 @@ const LikedPosts = () => {
         </h2>
       </div>
       <div className="flex flex-wrap gap-9 w-full max-w-5xl mt-7">
-        <ul>
+        <ul className="flex flex-col gap-3">
           {post?.likes.map((item: Models.Document) => {
             return (
-              <li>
-                <div>
-                  <img
-                    src={item.imageUrl}
-                    alt="liker"
-                    className="rounded-full w-12 lg:h-12"
-                  />
-                </div>
+              <li className="flex flex-1 items-center gap-4">
+                <img
+                  src={item.imageUrl}
+                  alt="liker"
+                  className="rounded-full w-12 lg:h-12"
+                />
+                <p className="base-medium lg:body-bold text-light-1">
+                  {item.name}
+                </p>
               </li>
             );
           })}
