@@ -6,7 +6,6 @@ import { Link, useParams } from "react-router-dom";
 const LikedPosts = () => {
   const { id } = useParams();
   const { data: post, isPending } = useGetPostById(id || "");
-  console.log(post);
 
   // if the details are still loading display a Loader component
   if (isPending) return <Loader />;
@@ -28,7 +27,7 @@ const LikedPosts = () => {
         <ul className="flex flex-col gap-3">
           {post?.likes.map((item: Models.Document) => {
             return (
-              <li className="flex flex-1 items-center gap-3">
+              <li className="flex flex-1 items-center gap-3" key={item.$id}>
                 <img
                   src={item.imageUrl}
                   alt="liker"
