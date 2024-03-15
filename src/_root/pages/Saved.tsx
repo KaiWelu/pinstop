@@ -18,6 +18,8 @@ const Saved = () => {
     });
   }
 
+  if (currentUser) console.log(currentUser);
+
   //query the database with an array of ids to get the saved posts
   const {
     data: savedPosts,
