@@ -1,18 +1,23 @@
 import Loader from "@/components/shared/Loader";
 import { useUserContext } from "@/context/AuthContext";
-import { useGetUserById } from "@/lib/react-query/queriesAndMutations";
+import {
+  useGetUserById,
+  useGetUserPosts,
+} from "@/lib/react-query/queriesAndMutations";
 import { Link, useParams } from "react-router-dom";
+import GridPostList from "./GridPostList";
+import { Models } from "appwrite";
 
 const Profile = () => {
   const { id } = useParams();
-  const { user: currentUser } = useUserContext();
   const { data: user, isPending: isUserPending } = useGetUserById(id || "");
+  const { user: currentUser } = useUserContext();
+  // const { data: posts, isPending: isPostsPending } = useGetUserPosts(id || "");
 
   if (!user || isUserPending) return <Loader />;
-
-  console.log(id);
-
-  console.log(currentUser);
+  console.log(user.posts);
+  // console.log(currentUser);
+  // console.log(posts);
 
   return (
     <div className="explore-container">
@@ -47,6 +52,15 @@ const Profile = () => {
             />
           </Link>
         </div>
+        {!isUserPending && (
+          <GridPostList posts={user.posts} showStats={false} showUser={false} />
+        )}
+        {/* {!isUserPending &&
+          user.posts.map((post: Models.Document) => (
+            <div key={post.$id}>
+              <img src={post.imageUrl} alt="yolo" />
+            </div>
+          ))} */}
       </div>
     </div>
   );

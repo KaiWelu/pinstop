@@ -392,3 +392,14 @@ export async function getUserById(id: string) {
 
   return user;
 }
+
+// === THIS IS NOT YET NEEDED ===
+// export async function getUserPosts(id: string) {
+//   const posts = await databases.listDocuments(
+//     appwriteConfig.databaseId,
+//     appwriteConfig.postCollectionId,
+//     [Query.equal("$id", [...id])]
+//   );
+
+//   return posts;
+// }
