@@ -1,13 +1,8 @@
 import Loader from "@/components/shared/Loader";
 import { useUserContext } from "@/context/AuthContext";
-import {
-  useGetUserById,
-  useGetUserPosts,
-} from "@/lib/react-query/queriesAndMutations";
+import { useGetUserById } from "@/lib/react-query/queriesAndMutations";
 import { Link, useParams } from "react-router-dom";
 import GridPostList from "./GridPostList";
-import { Models } from "appwrite";
-
 const Profile = () => {
   const { id } = useParams();
   const { data: user, isPending: isUserPending } = useGetUserById(id || "");

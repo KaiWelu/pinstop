@@ -16,7 +16,6 @@ import {
   getRecentPosts,
   getSavedPostsById,
   getUserById,
-  getUserPosts,
   likePost,
   savePost,
   searchPosts,
