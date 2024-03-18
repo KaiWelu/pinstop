@@ -15,8 +15,6 @@ const PostDetails = () => {
 
   const handleDeletePost = () => {};
 
-  console.log(post);
-
   return (
     <div className="post_details-container">
       {isPending ? (

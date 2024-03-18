@@ -13,11 +13,12 @@ const Profile = () => {
   const { data: user, isPending: isUserPending } = useGetUserById(id || "");
   const { user: currentUser } = useUserContext();
   // const { data: posts, isPending: isPostsPending } = useGetUserPosts(id || "");
+  console.log("CURRENT USER");
+  console.log(currentUser);
+  console.log("USER");
+  console.log(user);
 
   if (!user || isUserPending) return <Loader />;
-  console.log(user.posts);
-  // console.log(currentUser);
-  // console.log(posts);
 
   return (
     <div className="explore-container">
@@ -42,7 +43,7 @@ const Profile = () => {
           </div>
           <Link
             to={"/"}
-            // className={`${user.id !== post.creator.$id && "hidden"}`}
+            className={`${currentUser.id !== user.$id && "hidden"}`}
           >
             <img
               src="/assets/icons/edit.svg"
