@@ -382,3 +382,13 @@ export async function getSavedPostsById(ids: string[]) {
 
   return posts;
 }
+
+export async function getUserById(id: string) {
+  const user = await databases.getDocument(
+    appwriteConfig.databaseId,
+    appwriteConfig.userCollectionId,
+    id
+  );
+
+  return user;
+}

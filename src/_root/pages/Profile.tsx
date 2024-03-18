@@ -1,15 +1,18 @@
 import Loader from "@/components/shared/Loader";
 import { useUserContext } from "@/context/AuthContext";
+import { useGetUserById } from "@/lib/react-query/queriesAndMutations";
 import { Link, useParams } from "react-router-dom";
 
 const Profile = () => {
   const { id } = useParams();
-  const { user } = useUserContext();
-  console.log(user);
+  const { user: currentUser } = useUserContext();
+  const { data: user, isPending: isUserPending } = useGetUserById(id || "");
+
+  if (!user || isUserPending) return <Loader />;
 
   console.log(id);
 
-  if (!user) return <Loader />;
+  console.log(currentUser);
 
   return (
     <div className="explore-container">
@@ -33,7 +36,7 @@ const Profile = () => {
             </div>
           </div>
           <Link
-            to={"/home"}
+            to={"/"}
             // className={`${user.id !== post.creator.$id && "hidden"}`}
           >
             <img
