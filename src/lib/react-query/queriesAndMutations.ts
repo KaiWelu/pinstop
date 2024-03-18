@@ -15,6 +15,7 @@ import {
   getPostById,
   getRecentPosts,
   getSavedPostsById,
+  getUserById,
   likePost,
   savePost,
   searchPosts,
@@ -220,3 +221,20 @@ export const useGetSavedPostsById = (ids: string[]) => {
     enabled: ids.length > 0, // this lets the querry wait for the arguments
   });
 };
+
+export const useGetUserById = (id: string) => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.GET_USER_BY_ID],
+    queryFn: () => getUserById(id),
+    enabled: !!id,
+  });
+};
+
+// === THIS IS NOT YET NEEDED ===
+// export const useGetUserPosts = (id: string) => {
+//   return useQuery({
+//     queryKey: [QUERY_KEYS.GET_USER_POSTS],
+//     queryFn: () => getUserPosts(id),
+//     enabled: !!id,
+//   });
+// };
